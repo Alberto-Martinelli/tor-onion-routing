@@ -126,7 +126,7 @@ async function getNodeRegistry() {
   const nodes = await fetch(`http://localhost:${REGISTRY_PORT}/getNodeRegistry`)
     .then((res) => res.json() as Promise<GetNodeRegistryBody>)
     .then((json) => json.nodes);
-
+  console.log(nodes)
   return nodes;
 }
 
@@ -304,13 +304,21 @@ describe("Onion Routing", () => {
         for (let index = 0; index < 10; index++) {
           const node = nodes.find((_n) => _n.nodeId === index);
           expect(node).not.toBeUndefined();
+          // try {
+          //   expect(node).not.toBeUndefined();
+          // } catch (error) {
+          //   throw new Error(`Node with nodeId ${index} is not found:\n${JSON.stringify(nodes, null, 2)}`);
+          // }
         }
       });
 
       it("Each node has a public key in the right format", async () => {
         const nodes = await getNodeRegistry();
-
-        expect(nodes.length).toBe(10);
+        try{
+          expect(nodes.length).toBe(10);
+        }catch(err){
+          throw new Error(`Array nodes has lenght ${nodes.length}:\n${JSON.stringify(nodes, null, 2)}`);
+        }
 
         for (let index = 0; index < 10; index++) {
           const node = nodes.find((_n) => _n.nodeId === index);

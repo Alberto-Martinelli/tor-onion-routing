@@ -1,7 +1,10 @@
 import { launchNetwork } from ".";
+import { GetNodeRegistryBody } from "./registry/registry";
+import { REGISTRY_PORT } from "./config";
 
-function main() {
-  launchNetwork(10, 2);
+
+async function main() {
+  await launchNetwork(10, 2);
 }
 
 main();
